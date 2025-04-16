@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-import banner from "../../assets/iceberg.jpg";
+import banner from "../../assets/mountain.jpg";
 import { TextInput } from "../../components/TextInput/TextInput";
 import { PrimaryButton } from "../../components/PrimaryButton/PrimaryButton";
 import { Link } from "react-router-dom";
 
-export const Login: React.FC = () => {
+export const SignUp: React.FC = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,15 +27,25 @@ export const Login: React.FC = () => {
                     
                     <form onSubmit={handleFormSubmit} className="sm:mx-10">
                         <div className="my-5 text-center">
-                            <h2 className="text-3xl font-[merriweather] font-semibold">Welcome back!</h2>
-                            <p>Ready to reconnect and keep the sync alive?</p>
+                            <h2 className="text-3xl font-[merriweather] font-semibold">Join the sync</h2>
+                            <p>Connect with people, ideas, and possibilities — from anywhere.</p>
                         </div>
                         <div className="mb-3">
                             <label className="block">Username</label>
                             <TextInput 
                                 value={username}
                                 onChange={setUsername}
-                                placeholder="Type your username"
+                                placeholder="Type a username"
+                                className="w-full"
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label className="block">Email</label>
+                            <TextInput 
+                                value={email}
+                                onChange={setEmail}
+                                placeholder="Type a Email"
                                 className="w-full"
                             />
                         </div>
@@ -44,21 +55,21 @@ export const Login: React.FC = () => {
                             <TextInput 
                                 value={password}
                                 onChange={setPassword}
-                                placeholder="Type your password"
+                                placeholder="Type a password"
                                 type="password"
                                 className="w-full"
                             />
                         </div>
 
-                        <PrimaryButton type="submit" className="w-full mb-3">Sign In</PrimaryButton>
+                        <PrimaryButton type="submit" className="w-full mb-3">Sign Up</PrimaryButton>
                     </form>
 
                     <div>
-                        <p className="text-center">Don't have an account? <Link to="/sign-up" className="font-semibold">Sign Up</Link></p>
+                        <p className="text-center">Have an account? <Link to="/login" className="font-semibold">Sign In</Link></p>
                     </div>
                 </div>
 
-                <div className="p-3">
+                <div className="md:flex md:items-center md:justify-center p-3">
                     <img src={banner} className="rounded-xl" />
                 </div>
             </div>
