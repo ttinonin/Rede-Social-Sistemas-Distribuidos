@@ -5,6 +5,7 @@ interface TextInputProps {
     onChange: (newValue: string) => void;
     placeholder?: string;
     type?: "text" | "password";
+    className?: string;
 }
 
 export const TextInput: React.FC<TextInputProps> = (props) => {
@@ -14,7 +15,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     
     return (
         <>
-            <input type={props?.type ?? "text"} className="w-full p-2 rounded-md border border-gray-300" placeholder={props?.placeholder} value={props.value} onChange={handleChange}/>
+            <input type={props?.type ?? "text"} className={`p-2 rounded-md border border-gray-300 ${props?.className}`} placeholder={props?.placeholder} value={props.value} onChange={handleChange}/>
         </>
     );
 }
