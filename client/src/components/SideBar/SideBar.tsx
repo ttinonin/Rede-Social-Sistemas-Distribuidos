@@ -9,18 +9,18 @@ export const SideBar: React.FC = () => {
         <aside className="ml-6">
             <nav>
                 <ul className="list-none w-[212px] p-0 m-0">
-                    <Link to="/posts">
-                        <SideItem active={pathname === "/posts"} iconActive="/icons/post-selected.png" iconInactive="/icons/post.png">
+                    <Link to="/">
+                        <SideItem active={pathname === "/"} iconActive="/icons/post-selected.png" iconInactive="/icons/post.png">
                             Posts
                         </SideItem>
                     </Link>
 
                     <Link to="/social">
-                        <SideItem active={pathname === "/social"} iconActive="/icons/post-selected.png" iconInactive="/icons/post.png">
+                        <SideItem active={pathname === "/social"} iconActive="/icons/social-selected.png" iconInactive="/icons/social.png">
                             Social
                         </SideItem>
                     </Link>
-
+                    
                     <Link to="/chat">
                         <SideItem active={pathname === "/chat"} iconActive="/icons/chat-selected.png" iconInactive="/icons/chat.png">
                             Chat
