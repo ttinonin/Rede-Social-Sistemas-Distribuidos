@@ -32,7 +32,7 @@ class UserService:
         if not db_usuario:
             session.close()
             return None
-        # Atualiza os campos (menos o ID)
+        
         db_usuario.username = usuario.username
         db_usuario.email = usuario.email
         db_usuario.senha = usuario.senha
