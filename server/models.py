@@ -11,6 +11,14 @@ seguidores_associacao = Table(
     Column('seguido_id', Integer, ForeignKey('users.id'))
 )
 
+# Tabela de associação para muitos-para-muitos
+room_usuarios = Table(
+    "room_usuarios",
+    Base.metadata,
+    Column("room_id", Integer, ForeignKey("rooms.id")),
+    Column("usuario_id", Integer, ForeignKey("users.id"))
+)
+
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
@@ -30,8 +38,7 @@ class User(Base):
         backref='seguindo'
     )
     posts = relationship("Post", back_populates="autor", cascade="all, delete-orphan")
-    mensagens_enviadas = relationship("Message", back_populates="remetente", foreign_keys='Message.remetente_id', cascade="all, delete-orphan")
-    mensagens_recebidas = relationship("Message", back_populates="destinatario", foreign_keys='Message.destinatario_id', cascade="all, delete-orphan")
+    rooms = relationship("Room", secondary=room_usuarios, back_populates="usuarios")
 
 class Post(Base):
     __tablename__ = "posts"
@@ -49,8 +56,18 @@ class Message(Base):
     id = Column(Integer, primary_key=True, index=True)
     conteudo = Column(Text, nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
-    remetente_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    destinatario_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    remetente = relationship("User", foreign_keys=[remetente_id], back_populates="mensagens_enviadas")
-    destinatario = relationship("User", foreign_keys=[destinatario_id], back_populates="mensagens_recebidas")
+    autor_id = Column(Integer, ForeignKey("users.id"))
+    autor = relationship("User")
+
+    room_id = Column(Integer, ForeignKey("rooms.id"))
+    room = relationship("Room", back_populates="mensagens")
+
+
+class Room(Base):
+    __tablename__ = "rooms"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String, nullable=True)  # Pode ser usado para nome customizado de grupo
+    usuarios = relationship("User", secondary=room_usuarios, back_populates="rooms")
+    mensagens = relationship("Message", back_populates="room", cascade="all, delete")

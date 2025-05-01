@@ -4,7 +4,6 @@ context = zmq.Context()
 subscriber = context.socket(zmq.SUB)
 subscriber.connect("tcp://127.0.0.1:5555")
 subscriber.setsockopt_string(zmq.SUBSCRIBE, "")  # escuta tudo
-
 print("Escutando novos posts...")
 
 while True:
