@@ -79,7 +79,7 @@ export const SideBar: React.FC = () => {
                             p-3
                             bg-gradient-to-r from-emerald-500 to-emerald-400 text-white
                         `}>
-                            <img src={"/icons/logout.png"} />
+                            <img src={"/icons/social-selected.png"} />
                             Login
                         </li>
                     </button>

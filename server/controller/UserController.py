@@ -8,7 +8,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.post("/", response_model=UserResponse)
 def criar_usuario(usuario_data: UserCreate):
-    usuario = User(**usuario_data.dict())  
+    usuario = User(**usuario_data.dict())
     return UserService.criar_usuario(usuario)
 
 @router.get("/", response_model=List[UserResponse])
