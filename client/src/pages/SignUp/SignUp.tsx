@@ -4,16 +4,25 @@ import banner from "../../assets/mountain.jpg";
 import { TextInput } from "../../components/TextInput/TextInput";
 import { PrimaryButton } from "../../components/PrimaryButton/PrimaryButton";
 import { Link } from "react-router-dom";
+import { signUp } from "../../services/userService";
+import { useUserContext } from "../../hooks/useUserContext";
 
 export const SignUp: React.FC = () => {
+    const { setUser } = useUserContext();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [email, setEmail] = useState<string>("");
 
-    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-
+        try {
+            const newUser = await signUp(username, email, password);
+            setUser(newUser);
+        } catch(error) {
+            console.error("Error while sign up: ", error);
+            alert("erro");
+        }
     }
 
     return (
