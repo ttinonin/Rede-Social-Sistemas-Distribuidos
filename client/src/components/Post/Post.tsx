@@ -11,6 +11,8 @@ interface PostProps {
 export const Post: React.FC<PostProps> = (props) => {
     // Post body limit 700 characters
 
+    const date = new Date(props.timestamp)
+
     return (
         <div className="transition-transform duration-300 hover:scale-101 bg-white rounded-xl p-3 cursor-pointer flex flex-row shadow-lg mb-4">
             <div className="w-24 h-24 flex-shrink-0 m-2">
@@ -24,7 +26,7 @@ export const Post: React.FC<PostProps> = (props) => {
                 </p>
 
                 <p className="text-sm text-gray-600">Author: {props.author}</p>
-                <p className="text-sm text-gray-600">Posted At: {props.timestamp.toISOString()}</p>
+                <p className="text-sm text-gray-600">Posted At: {date.toDateString()}</p>
             </div>
         </div>
     );

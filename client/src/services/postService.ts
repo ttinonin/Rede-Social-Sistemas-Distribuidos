@@ -8,3 +8,8 @@ export const createPost = async (
     const res = await api.post<Post>("/posts/", { conteudo, autor_id });
     return res.data;
 };
+
+export const getPosts = async (): Promise<Post[]> => {
+    const response = await api.get("/posts/");
+    return response.data;
+};
