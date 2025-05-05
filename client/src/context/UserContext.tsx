@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from "react";
+import React, { createContext, ReactNode, useState, useEffect } from "react";
 import { User } from "../interfaces/User";
 
 interface UserContextType {
@@ -14,7 +14,23 @@ interface UserProviderProps {
 }
 
 export const UserProvider = (props: UserProviderProps) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUserState] = useState<User | null>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUserState(JSON.parse(storedUser));
+        }
+    }, []);
+
+    const setUser = (user: User | null) => {
+        setUserState(user);
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+        }
+    };
 
     const value: UserContextType = {
         user,
