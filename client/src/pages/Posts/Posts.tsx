@@ -4,16 +4,19 @@ import { PageLayout } from "../../components/PageLayout/PageLayout";
 import Post from "../../components/Post";
 import { PrimaryButton } from "../../components/PrimaryButton/PrimaryButton";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../../hooks/useUserContext";
 
 export const Posts: React.FC = () => {
+    const { isAuthenticated } = useUserContext();
+
     return (
         <PageLayout>
             <div className="flex items-center justify-between mb-2">
                 <h1 className="text-3xl font-semibold mb-3">See what others are sharing!</h1>
 
-                <Link to="/create-post">
+                {isAuthenticated && <Link to="/create-post">
                     <PrimaryButton>Create Post</PrimaryButton>
-                </Link>
+                </Link>}
             </div>
             
             <Post 
