@@ -14,6 +14,7 @@ def criar_post(post_data: PostCreate):
     # Publica o post via ZeroMQ
     publisher_core.publish_post({
         "id": salvo.id,
+        "titulo": salvo.titulo,
         "conteudo": salvo.conteudo,
         "autor_id": salvo.autor_id,
         "data_criacao": salvo.data_criacao.isoformat()

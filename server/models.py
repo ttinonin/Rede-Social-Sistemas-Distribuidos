@@ -44,6 +44,7 @@ class Post(Base):
     __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True, index=True)
+    titulo = conteudo = Column(Text, nullable=False)
     conteudo = Column(Text, nullable=False)
     data_criacao = Column(DateTime, default=datetime.utcnow)
     autor_id = Column(Integer, ForeignKey("users.id"))

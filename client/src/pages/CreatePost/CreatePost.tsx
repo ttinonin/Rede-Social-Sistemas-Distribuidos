@@ -16,8 +16,8 @@ export const CreatePost: React.FC = () => {
     const navigate = useNavigate();
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: ({ conteudo, autor_id }: { conteudo: string; autor_id: number }) => (
-            createPost(conteudo, autor_id)
+        mutationFn: ({ titulo, conteudo, autor_id }: { titulo: string, conteudo: string; autor_id: number }) => (
+            createPost(titulo, conteudo, autor_id)
         ),
         onSuccess: (data) => {
             navigate("/")
@@ -35,7 +35,7 @@ export const CreatePost: React.FC = () => {
             return
         }
 
-        mutate({ conteudo, "autor_id": (user?.id ?? 0) })
+        mutate({ titulo, conteudo, "autor_id": (user?.id ?? 0) })
     }
 
     return (

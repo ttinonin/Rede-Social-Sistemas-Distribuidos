@@ -31,7 +31,7 @@ export const Posts: React.FC = () => {
                     <Post
                         key={post.id}
                         id={post.id}
-                        title="Post"
+                        title={post.titulo}
                         body={post.conteudo}
                         author={post.autor_id}
                         timestamp={post.data_criacao}
