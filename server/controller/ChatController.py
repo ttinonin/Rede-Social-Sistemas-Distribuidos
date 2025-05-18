@@ -3,9 +3,9 @@ from pydantic import BaseModel
 import zmq
 import json
 import time
-import publisher_core
+import utils.publisher_core as publisher_core
 from schemas.message_schema import MessageSchema, MessageUpdateSchema, ResponseMessageSchema
-from models import Message
+from utils.models import Message
 from services.MessageService import MessageService
 
 router = APIRouter(prefix="/rooms", tags=["Messages"])

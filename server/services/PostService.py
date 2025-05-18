@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from models import Post
-from database import SessionLocal
+from utils.models import Post
+from utils.database import SessionLocal
 
 class PostService:
 

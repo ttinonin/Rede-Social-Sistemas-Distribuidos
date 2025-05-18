@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from models import Message
-from database import SessionLocal
+from utils.models import Message
+from utils.database import SessionLocal
 
 class MessageService:
 

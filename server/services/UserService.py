@@ -1,6 +1,6 @@
 from sqlalchemy import func
-from models import User, Room
-from database import SessionLocal
+from utils.models import User, Room
+from utils.database import SessionLocal
 
 class UserService:
     @staticmethod

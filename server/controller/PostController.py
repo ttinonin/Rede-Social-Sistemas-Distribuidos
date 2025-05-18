@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from models import Post
+from utils.models import Post
 from services.PostService import PostService
 from schemas.post_schema import PostCreate, PostResponse
-import publisher_core
+import utils.publisher_core as publisher_core
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
