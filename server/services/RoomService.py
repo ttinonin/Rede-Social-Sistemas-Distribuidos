@@ -41,6 +41,7 @@ class RoomService:
         try:
             return (
                 session.query(Room)
+                .options(joinedload(Room.usuarios))
                 .join(Room.usuarios)
                 .filter(User.id == user_id)
                 .all()
