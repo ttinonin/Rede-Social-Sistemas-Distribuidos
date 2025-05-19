@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from controller import UserController, PostController, ChatController
+from controller import UserController, PostController, ChatController, RoomController
 from utils.models import Base
 from utils.database import engine
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,3 +22,4 @@ app.add_middleware(
 app.include_router(UserController.router)
 app.include_router(PostController.router)
 app.include_router(ChatController.router)
+app.include_router(RoomController.router)

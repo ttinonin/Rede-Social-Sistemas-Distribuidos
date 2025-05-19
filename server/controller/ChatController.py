@@ -7,6 +7,7 @@ import utils.publisher_core as publisher_core
 from schemas.message_schema import MessageSchema, MessageUpdateSchema, ResponseMessageSchema
 from utils.models import Message
 from services.MessageService import MessageService
+from services.RoomService import RoomService
 
 router = APIRouter(prefix="/rooms", tags=["Messages"])
 
