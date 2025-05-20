@@ -2,11 +2,10 @@ import zmq
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
-socket.connect("tcp://localhost:5556")  # Mesmo endereço e porta do publisher
+socket.connect("tcp://localhost:5556") 
 
-# Escolha os tópicos que deseja assinar
-socket.setsockopt_string(zmq.SUBSCRIBE, "notif_user_1")
-socket.setsockopt_string(zmq.SUBSCRIBE, "post_feed")
+
+
 socket.setsockopt_string(zmq.SUBSCRIBE, "room_2")
 
 print("[Subscriber] Ouvindo mensagens...")

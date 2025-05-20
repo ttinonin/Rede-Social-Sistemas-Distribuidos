@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+conexoes_ativas = 0 
+
 origins = [
     "http://localhost:5173",  # Vite (React)
 ]
@@ -17,6 +19,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/status")
+def status():
+    return {
+        "status": "ok",
+        "conexoes_ativas": conexoes_ativas
+    }
 
 # Inclui o controller
 app.include_router(UserController.router)

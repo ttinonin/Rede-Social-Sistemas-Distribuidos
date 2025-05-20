@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 class MessageSchema(BaseModel):
     autor_id: int
@@ -10,6 +11,7 @@ class ResponseMessageSchema(BaseModel):
     autor_id: int
     room_id: int
     conteudo: str
+    timestamp: datetime
 
     class Config:
         orm_mode = True

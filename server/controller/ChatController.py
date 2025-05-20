@@ -1,15 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-import zmq
-import json
-import time
 from publishers import publisher_client
 from schemas.message_schema import MessageSchema, MessageUpdateSchema, ResponseMessageSchema
 from utils.models import Message
 from services.MessageService import MessageService
-from services.RoomService import RoomService
+import datetime
 
-router = APIRouter(prefix="/rooms", tags=["Messages"])
+router = APIRouter(prefix="/chat", tags=["Messages"])
 
 
 @router.post("/{room_id}/messages")
@@ -17,14 +13,14 @@ def send_message(room_id: str, message_sended: MessageSchema):
     message = Message(
         conteudo=message_sended.conteudo,
         autor_id=message_sended.autor_id,
-        room_id=room_id
+        room_id=room_id,
     )
 
     payload = {
         "id": message.id,
         "autor_id": message.autor_id,
         "conteudo": message.conteudo,
-        "timestamp": message.timestamp
+        "timestamp": datetime.datetime.now().isoformat()
     }
 
     publisher_client.publish_message(room_id, payload)

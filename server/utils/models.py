@@ -28,7 +28,7 @@ class User(Base):
     nome_completo = Column(String)
     bio = Column(Text, default="")
     foto_perfil_url = Column(String, default="")
-    data_criacao = Column(DateTime, default=datetime.utcnow)
+    data_criacao = Column(DateTime, default=datetime.now)
 
     seguidores = relationship(
         'User',
@@ -46,7 +46,7 @@ class Post(Base):
     id = Column(Integer, primary_key=True, index=True)
     titulo = conteudo = Column(Text, nullable=False)
     conteudo = Column(Text, nullable=False)
-    data_criacao = Column(DateTime, default=datetime.utcnow)
+    data_criacao = Column(DateTime, default=datetime.now)
     autor_id = Column(Integer, ForeignKey("users.id"))
 
     autor = relationship("User", back_populates="posts")
@@ -56,7 +56,7 @@ class Message(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     conteudo = Column(Text, nullable=False)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=datetime.now)
 
     autor_id = Column(Integer, ForeignKey("users.id"))
     autor = relationship("User")
