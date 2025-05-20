@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from utils.models import Post
 from services.PostService import PostService
 from schemas.post_schema import PostCreate, PostResponse
-import utils.publisher_core as publisher_core
+import publishers.publisher_client as publisher_client
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
@@ -12,7 +12,7 @@ def criar_post(post_data: PostCreate):
     salvo = PostService.criar_post(post)
 
     # Publica o post via ZeroMQ
-    publisher_core.publish_post({
+    publisher_client.publish_post({
         "id": salvo.id,
         "titulo": salvo.titulo,
         "conteudo": salvo.conteudo,

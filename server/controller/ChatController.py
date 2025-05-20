@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import zmq
 import json
 import time
-import utils.publisher_core as publisher_core
+from publishers import publisher_client
 from schemas.message_schema import MessageSchema, MessageUpdateSchema, ResponseMessageSchema
 from utils.models import Message
 from services.MessageService import MessageService
@@ -27,7 +27,7 @@ def send_message(room_id: str, message_sended: MessageSchema):
         "timestamp": message.timestamp
     }
 
-    publisher_core.publish_message(room_id, payload)
+    publisher_client.publish_message(room_id, payload)
     created = MessageService.criar_mensagem(message)
     return {"status": "ok", "sent_to": room_id}
 
