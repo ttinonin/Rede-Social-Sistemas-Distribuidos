@@ -11,7 +11,7 @@ export const Social: React.FC = () => {
 
     const [selectedTab, setSelectedTab] = useState<"followers" | "following">("following");
 
-   const { data: followers, isLoading: loadingFollowers, isError: errorFollowers } = useQuery({
+    const { data: followers, isLoading: loadingFollowers, isError: errorFollowers } = useQuery({
         queryKey: ["followers", userId],
         queryFn: () => fetchFollowers(userId),
         enabled: !!userId,

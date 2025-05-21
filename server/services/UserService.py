@@ -65,7 +65,6 @@ class UserService:
         try:
             seguidor = session.query(User).get(seguidor_id)
             seguido = session.query(User).get(seguido_id)
-
             if not seguidor or not seguido:
                 raise ValueError("Usuário não encontrado")
 

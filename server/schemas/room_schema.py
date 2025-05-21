@@ -4,6 +4,7 @@ from typing import List, Optional
 
 class UsuarioOut(BaseModel):
     id: int
+    username: Optional[str]
 
     class Config:
         orm_mode = True
