@@ -1,6 +1,20 @@
 import api, { userApi } from "./api";
 import { User } from "../interfaces/User";
 
+export const singIn = async(username: string, password: string): Promise<User> => {
+    const res = await userApi.post<User>("/users/login", { 
+        username, 
+        "email": "", 
+        "senha": password,
+        "nome_completo": "",
+        "bio": "",
+        "foto_perfil_url": "",
+        "data_criacao": new Date()
+    });
+    
+    return res.data;
+}
+
 export const signUp = async (username: string, email: string, password: string): Promise<User> => {
 
     const res = await userApi.post<User>("/users", { 

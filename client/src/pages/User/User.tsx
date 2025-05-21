@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { getUser, follow } from "../../services/userService";
 import { PageLayout } from "../../components/PageLayout/PageLayout";
@@ -8,6 +8,7 @@ import { useUserContext } from "../../hooks/useUserContext";
 import { PrimaryButton } from "../../components/PrimaryButton/PrimaryButton";
 
 export const User: React.FC = () => {
+    const navigate = useNavigate();
     const { isAuthenticated, user } = useUserContext();
 
     const [isPending, setIsPending] = useState(false);
@@ -29,6 +30,7 @@ export const User: React.FC = () => {
             alert("erro");
         }
         setIsPending(false);
+        navigate("/social");
     }
 
     return (

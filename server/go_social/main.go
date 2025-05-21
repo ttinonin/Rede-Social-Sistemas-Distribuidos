@@ -45,6 +45,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	http.HandleFunc("/users/login", func(w http.ResponseWriter, r *http.Request) {
+		loginUser(w, r, db)
+	})
+
 	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
@@ -185,6 +189,50 @@ func createUser(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	w.Write(response)
+}
+
+func loginUser(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var credentials struct {
+		Username string `json:"username"`
+		Senha    string `json:"senha"`
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&credentials)
+	if err != nil {
+		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+		return
+	}
+
+	var user User
+	err = db.QueryRow(
+		"SELECT id, username, email, senha, nome_completo, bio, foto_perfil_url, data_criacao FROM users WHERE username = ? AND senha = ?",
+		credentials.Username, credentials.Senha,
+	).Scan(&user.ID, &user.Username, &user.Email, &user.Senha, &user.NomeCompleto, &user.Bio, &user.FotoPerfilURL, &user.DataCriacao)
+
+	if err == sql.ErrNoRows {
+		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+		return
+	} else if err != nil {
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	// Para segurança, normalmente não enviamos a senha de volta:
+	user.Senha = ""
+
+	response, err := json.Marshal(user)
+	if err != nil {
+		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
 

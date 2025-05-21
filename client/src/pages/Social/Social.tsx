@@ -9,7 +9,7 @@ export const Social: React.FC = () => {
     const { user } = useUserContext();
     const userId = user?.id;
 
-    const [selectedTab, setSelectedTab] = useState<"followers" | "following">("followers");
+    const [selectedTab, setSelectedTab] = useState<"followers" | "following">("following");
 
    const { data: followers, isLoading: loadingFollowers, isError: errorFollowers } = useQuery({
         queryKey: ["followers", userId],
