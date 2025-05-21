@@ -10,6 +10,7 @@ conexoes_ativas = 0
 
 origins = [
     "http://localhost:5173",  # Vite (React)
+    "*"
 ]
 
 app.add_middleware(

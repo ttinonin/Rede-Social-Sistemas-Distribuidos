@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
+import User from "./pages/User"
 import Posts from "./pages/Posts"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
@@ -21,7 +22,10 @@ function AppRoutes() {
 
           <Route path="/social" element={<Social />}/>
           <Route path="/chat" element={<Posts />}/>
+
           <Route path="/profile" element={<Posts />}/>
+          <Route path="/profile/:id" element={<User />}/>
+          
           <Route path="/inbox" element={<Posts />}/>
 
         </Routes>

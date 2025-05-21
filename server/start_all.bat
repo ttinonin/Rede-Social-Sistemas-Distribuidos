@@ -5,6 +5,7 @@ start cmd /k "uvicorn main:app --port 8001"
 start cmd /k "uvicorn main:app --port 8002"
 start cmd /k "uvicorn main:app --port 8003"
 start cmd /k "uvicorn load_balancer:app --port 9000"
-start cmd /k "cd /d .\go_social && go run main.go"
+start cmd /k "cd /d .\go_social && set CGO_ENABLED=1 && go run main.go"
+
 
 

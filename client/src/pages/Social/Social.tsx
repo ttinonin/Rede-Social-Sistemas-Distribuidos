@@ -1,30 +1,28 @@
 import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
+import { fetchFollowers, fetchFollowing } from "../../services/userService";
 import { PageLayout } from "../../components/PageLayout/PageLayout";
+import { useUserContext } from "../../hooks/useUserContext";
 
 export const Social: React.FC = () => {
-    const followers = [
-        {
-            id: "abc",
-            username: "bimbas900",
-            email: "bimbas@gmail.com"
-        },
-        {
-            id: "123",
-            username: "DexterMorgan01",
-            email: "dexter@gmail.com"
-        }
-    ];
+    const { user } = useUserContext();
+    const userId = user?.id;
 
-    const following = [
-        {
-            id: "987",
-            username: "Linus01",
-            email: "linus@linux.com"
-        }
-    ];
+    const [selectedTab, setSelectedTab] = useState<"followers" | "following">("followers");
 
-    const [selectedTab, setSelectedTab] = useState("followers");
+   const { data: followers, isLoading: loadingFollowers, isError: errorFollowers } = useQuery({
+        queryKey: ["followers", userId],
+        queryFn: () => fetchFollowers(userId),
+        enabled: !!userId,
+    });
+
+    const { data: following, isLoading: loadingFollowing, isError: errorFollowing } = useQuery({
+        queryKey: ["following", userId],
+        queryFn: () => fetchFollowing(userId),
+        enabled: !!userId,
+    });
+
 
     return (
         <PageLayout>
@@ -47,13 +45,13 @@ export const Social: React.FC = () => {
             </div>
 
             {selectedTab === "followers" ? (
-                followers.map((follower) => (
+                followers?.map((follower) => (
                     <div className="bg-white rounded-xl mb-4 p-3 shadow-md">
                         <p className="font-semibold">{follower.username}</p>
                     </div>
                 ))
             ) : (
-                following.map((follow) => (
+                following?.map((follow) => (
                     <div className="bg-white rounded-xl mb-4 p-3 shadow-md">
                         <p className="font-semibold">{follow.username}</p>
                     </div>
