@@ -15,7 +15,7 @@ export const singIn = async(username: string, password: string): Promise<User> =
     return res.data;
 }
 
-export const signUp = async (username: string, email: string, password: string): Promise<User> => {
+export const signUp = async (username: string, email: string, password: string, pfp: string): Promise<User> => {
 
     const res = await userApi.post<User>("/users", { 
         username, 
@@ -23,7 +23,7 @@ export const signUp = async (username: string, email: string, password: string):
         "senha": password,
         "nome_completo": "",
         "bio": "",
-        "foto_perfil_url": "",
+        "foto_perfil_url": pfp,
         "data_criacao": new Date()
     });
     return res.data;

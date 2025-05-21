@@ -9,6 +9,7 @@ import CreatePost from "./pages/CreatePost"
 import { UserProvider } from "./context/UserContext"
 import Profile from "./pages/Profile"
 import Chat from "./pages/Chat"
+import Room from "./pages/Room"
 
 function AppRoutes() {
 
@@ -24,6 +25,7 @@ function AppRoutes() {
 
           <Route path="/social" element={<Social />}/>
           <Route path="/chat" element={<Chat />}/>
+          <Route path="/chat/:roomId" element={<Room />}/>
 
           <Route path="/profile" element={<Profile />}/>
           <Route path="/profile/:id" element={<User />}/>

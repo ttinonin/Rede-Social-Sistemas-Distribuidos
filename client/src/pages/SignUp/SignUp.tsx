@@ -18,8 +18,14 @@ export const SignUp: React.FC = () => {
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        let pfps = [
+            "/images/profile/dog.jpg",
+            "/images/profile/cat.jpg",
+            "/images/profile/cat-2.jpg",
+        ];
+
         try {
-            const newUser = await signUp(username, email, password);
+            const newUser = await signUp(username, email, password, pfps[Math.floor(Math.random() * pfps.length)]);
             setUser(newUser);
 
             navigate("/")

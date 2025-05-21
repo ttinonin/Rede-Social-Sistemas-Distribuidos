@@ -6,6 +6,7 @@ import { getUser, follow } from "../../services/userService";
 import { PageLayout } from "../../components/PageLayout/PageLayout";
 import { useUserContext } from "../../hooks/useUserContext";
 import { PrimaryButton } from "../../components/PrimaryButton/PrimaryButton";
+import { Link } from "react-router-dom";
 
 export const Chat: React.FC = () => {
     const { isAuthenticated, user } = useUserContext();
@@ -32,12 +33,14 @@ export const Chat: React.FC = () => {
                     room.usuarios.find((u) => u.id !== user?.id)?.username ?? "Unknown Room";
 
                 return (
-                    <div key={room.id} className="transition-transform duration-300 hover:scale-101 bg-white p-4 rounded-lg shadow-md mb-3 cursor-pointer">
-                        <h2 className="text-xl font-semibold">{roomName}</h2>
-                        <p className="text-gray-600">
-                            Users: {room.usuarios.map((u) => u.username).join(", ")}
-                        </p>
-                    </div>
+                    <Link key={room.id} to={`/chat/${room.id}`}>
+                        <div key={room.id} className="transition-transform duration-300 hover:scale-101 bg-white p-4 rounded-lg shadow-md mb-3 cursor-pointer">
+                            <h2 className="text-xl font-semibold">{roomName}</h2>
+                            <p className="text-gray-600">
+                                Users: {room.usuarios.map((u) => u.username).join(", ")}
+                            </p>
+                        </div>
+                    </Link>
                 );
             })}
 
