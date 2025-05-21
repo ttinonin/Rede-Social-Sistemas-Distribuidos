@@ -20,7 +20,8 @@ def send_message(room_id: str, message_sended: MessageSchema):
         "id": message.id,
         "autor_id": message.autor_id,
         "conteudo": message.conteudo,
-        "timestamp": datetime.datetime.now().isoformat()
+        "timestamp": datetime.datetime.now().isoformat(),
+        "room_id": room_id
     }
 
     publisher_client.publish_message(room_id, payload)

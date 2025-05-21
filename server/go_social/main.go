@@ -8,23 +8,23 @@ import (
 	"strconv"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 // User representa a estrutura de dados para um usuário.
 type User struct {
-	ID            int            `json:"id"`
-	Username      string         `json:"username"`
-	Email         sql.NullString `json:"email"`
-	Senha         string         `json:"senha"`
-	NomeCompleto  sql.NullString `json:"nome_completo"`
-	Bio           sql.NullString `json:"bio"`
-	FotoPerfilURL sql.NullString `json:"foto_perfil_url"`
-	DataCriacao   time.Time      `json:"data_criacao"`
+	ID            int       `json:"id"`
+	Username      string    `json:"username"`
+	Email         *string   `json:"email"`
+	Senha         string    `json:"senha"`
+	NomeCompleto  *string   `json:"nome_completo"`
+	Bio           *string   `json:"bio"`
+	FotoPerfilURL *string   `json:"foto_perfil_url"`
+	DataCriacao   time.Time `json:"data_criacao"`
 }
 
 func main() {
-	db, err := sql.Open("sqlite3", "../rede_social.db")
+	db, err := sql.Open("sqlite", "../rede_social.db")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,6 +44,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	http.HandleFunc("/users/login", func(w http.ResponseWriter, r *http.Request) {
+		loginUser(w, r, db)
+	})
 
 	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
@@ -74,6 +78,20 @@ func main() {
 
 func JSONContentTypeMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Header para permitir qualquer origem (ou especifique: "http://localhost:3000" por exemplo)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		// Métodos permitidos
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		// Cabeçalhos permitidos
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		// Se for preflight OPTIONS, responde sem continuar
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		// Resposta JSON por padrão
 		w.Header().Set("Content-Type", "application/json")
 		next.ServeHTTP(w, r)
 	})
@@ -141,6 +159,7 @@ func createUser(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
+		log.Println("Erro ao decodificar JSON:", err)
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
@@ -170,6 +189,50 @@ func createUser(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	w.Write(response)
+}
+
+func loginUser(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var credentials struct {
+		Username string `json:"username"`
+		Senha    string `json:"senha"`
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&credentials)
+	if err != nil {
+		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+		return
+	}
+
+	var user User
+	err = db.QueryRow(
+		"SELECT id, username, email, senha, nome_completo, bio, foto_perfil_url, data_criacao FROM users WHERE username = ? AND senha = ?",
+		credentials.Username, credentials.Senha,
+	).Scan(&user.ID, &user.Username, &user.Email, &user.Senha, &user.NomeCompleto, &user.Bio, &user.FotoPerfilURL, &user.DataCriacao)
+
+	if err == sql.ErrNoRows {
+		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+		return
+	} else if err != nil {
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	// Para segurança, normalmente não enviamos a senha de volta:
+	user.Senha = ""
+
+	response, err := json.Marshal(user)
+	if err != nil {
+		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
 

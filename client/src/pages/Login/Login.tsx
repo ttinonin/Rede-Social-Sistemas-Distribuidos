@@ -1,18 +1,36 @@
 import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { singIn } from "../../services/userService";
 
 import banner from "../../assets/iceberg.jpg";
 import { TextInput } from "../../components/TextInput/TextInput";
 import { PrimaryButton } from "../../components/PrimaryButton/PrimaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../../hooks/useUserContext";
 
 export const Login: React.FC = () => {
+    const navigate = useNavigate();
+    const { setUser } = useUserContext();
+
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const mutation = useMutation({
+        mutationFn: ({ username, senha }: { username: string; senha: string }) => singIn(username, senha),
+        onSuccess: (user) => {
+        
+        setUser(user);
+        navigate("/");
+        },
+        onError: (error: any) => {
+        alert("Erro ao fazer login: " + (error?.message || "Tente novamente"));
+        },
+    });
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-
+        mutation.mutate({ username, senha: password });
     }
 
     return (
