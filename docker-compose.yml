@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  client:
+    build: ./client
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+    working_dir: /app
+    command: ["npm", "run", "dev"]
+
+  chat-gateway:
+    build: ./chat-gateaway
+    ports:
+      - "6969:6969"
+    volumes:
+      - ./chat-gateaway:/app
+    working_dir: /app
+    command: ["node", "server.js"]
+    depends_on:
+      - publisher
+
+  publisher:
+    build:
+      context: ./server/publishers
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/app
+    working_dir: /app/publishers
+    command: ["python", "publisher_process.py"]
+
+  go-server:
+    build: ./server/go_social
+    working_dir: /app
+    command: ["go", "run", "main.go"]
+
+  api1:
+    build: ./server
+    working_dir: /app
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
+    ports:
+      - "8001:8001"
+    depends_on:
+      - publisher
+
+  api2:
+    build: ./server
+    working_dir: /app
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002"]
+
+  api3:
+    build: ./server
+    working_dir: /app
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8003"]
+
+  load-balancer:
+    build: ./server
+    working_dir: /app
+    command: ["uvicorn", "load_balancer:app", "--host", "0.0.0.0", "--port", "9000"]
+    ports:
+      - "9000:9000"
