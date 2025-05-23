@@ -73,7 +73,8 @@ func main() {
 		}
 	})
 
-	log.Fatal(http.ListenAndServe(":8080", JSONContentTypeMiddleware(http.DefaultServeMux)))
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", JSONContentTypeMiddleware(http.DefaultServeMux)))
+
 }
 
 func JSONContentTypeMiddleware(next http.Handler) http.Handler {
