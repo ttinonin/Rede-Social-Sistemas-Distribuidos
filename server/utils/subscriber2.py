@@ -2,7 +2,7 @@ import zmq
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
-socket.connect("tcp://localhost:5556")  # Mesmo endereço e porta do publisher
+socket.connect("tcp://0.0.0.0:5556")  # Mesmo endereço e porta do publisher
 
 # Escolha os tópicos que deseja assinar
 socket.setsockopt_string(zmq.SUBSCRIBE, "post_feed")

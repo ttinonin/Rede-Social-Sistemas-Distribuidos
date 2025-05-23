@@ -6,7 +6,7 @@ from schemas.generic_body import GenericBody
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-SERVERS = ["http://localhost:8001", "http://localhost:8002", "http://localhost:8003"]
+SERVERS = ["http://0.0.0.0:8001", "http://0.0.0.0:8002", "http://0.0.0.0:8003"]
 server_status = {s: {"ok": True, "conexoes_ativas": 0} for s in SERVERS}
 
 origins = [

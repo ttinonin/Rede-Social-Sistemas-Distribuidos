@@ -41,7 +41,7 @@ export const Room: React.FC = () => {
             autor_id: user.id,
         };
 
-        fetch(`http://127.0.0.1:9000/chat/${roomId}/messages`, {
+        fetch(`http://0.0.0.0:9000/chat/${roomId}/messages`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
@@ -53,7 +53,7 @@ export const Room: React.FC = () => {
     useEffect(() => {
     if (!roomId) return;
 
-    const socket = new WebSocket("ws://localhost:6969");
+    const socket = new WebSocket("ws://0.0.0.0:6969");
 
     socket.onopen = () => {
         console.log("[WebSocket] Conectado");

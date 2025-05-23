@@ -6,11 +6,11 @@ context = zmq.Context()
 
 # PULL para receber mensagens das instâncias FastAPI
 pull_socket = context.socket(zmq.PULL)
-pull_socket.bind("tcp://localhost:5555")
+pull_socket.bind("tcp://0.0.0.0:5555")
 
 # PUB para distribuir mensagens aos inscritos
 pub_socket = context.socket(zmq.PUB)
-pub_socket.bind("tcp://localhost:5556")
+pub_socket.bind("tcp://0.0.0.0:5556")
 
 print("Publisher ativo em:")
 print("- Recebendo (PULL) em tcp://*:5555")

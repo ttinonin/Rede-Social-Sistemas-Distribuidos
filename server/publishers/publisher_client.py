@@ -3,7 +3,7 @@ import zmq
 
 context = zmq.Context()
 push_socket = context.socket(zmq.PUSH)
-push_socket.connect("tcp://localhost:5555")  # Conecta ao processo publisher
+push_socket.connect("tcp://0.0.0.0:5555")  # Conecta ao processo publisher
 
 def publish_message(room_id: str, payload: dict):
     push_socket.send_json({

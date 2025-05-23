@@ -2,7 +2,7 @@ const { Subscriber } = require("zeromq");
 const WebSocket = require("ws");
 
 const zmqSub = new Subscriber();
-zmqSub.connect("tcp://localhost:5556");
+zmqSub.connect("tcp://0.0.0.0:5556");
 
 // Subscrição genérica
 zmqSub.subscribe();
